@@ -1,6 +1,4 @@
-# -------------------------------------------------
-# Project created by QtCreator 2011-12-16T15:35:05
-# -------------------------------------------------
+#spts main project file
 include (../taskconfig/taskconfig.pri)
 include (./src/sziinifile/sziinifile.pri)
 include (./setdirs.pri)
