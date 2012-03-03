@@ -1,0 +1,437 @@
+#include <QColorDialog>
+#include <QFileDialog>
+#include <QColor>
+#include <QSound>
+#include <QDir>
+#include <QMessageBox>
+#include <QtGui/QApplication>
+
+#include "setwindow.h"
+#include "modulevar.h"
+#include "moduleconst.h"
+#include "ui_setwindow.h"
+#include "taskconfig/taskconfig.h"
+
+
+//-------------------------------------------------------------------------------------------------
+
+SetWindow::SetWindow(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::SetWindow)
+{
+    ui->setupUi(this);
+
+    // Свяжем сигналы-слоты
+    connect (ui->buttonBox, SIGNAL(rejected()), this, SLOT (CloseWindow()));      // Кнопка 'Закрыть'
+    connect (ui->buttonBox, SIGNAL(accepted()), this, SLOT (SaveSettings()));     // Кнопка 'Сохранить'
+
+    connect (ui->toolBtnPohod, SIGNAL(clicked()), this, SLOT (SelectPohodColor()));       // Кнопка выбора цвета 'По-походному'
+    connect (ui->toolBtnReady, SIGNAL(clicked()), this, SLOT (SelectReadyColor()));       // Кнопка выбора цвета 'Готов'
+    connect (ui->toolBtnNotReady, SIGNAL(clicked()), this, SLOT (SelectNotReadyColor())); // Кнопка выбора 'Не Готов'
+    connect (ui->toolBtnAvar, SIGNAL(clicked()), this, SLOT (SelectAvarColor()));         // Кнопка выбора цвета 'Аварийное состояние'
+    connect (ui->toolBtnSelect, SIGNAL(clicked()), this, SLOT (SelectSelectColor()));     // Кнопка выбора цвета 'НеАктивный компонент'
+    connect (ui->chBoxStandartColors, SIGNAL(clicked()), SLOT (SetStandardColors()));     // Чек бокс выбора стандартной цветовой схемы
+    connect (ui->chBoxSoundsOnOff, SIGNAL(clicked()), SLOT (SetSoundsOnOff()));          // Чек бокс вкл/выкл звуков
+    connect (ui->toolBtnSound, SIGNAL(clicked()), SLOT (PlayAvarSound()));              // Тулботн для прослушивания звука
+    connect (ui->toolBtnSoundDialog, SIGNAL(clicked()), SLOT (SelectAvarSound()));     // Тулботн вызова диалогового окна звука
+    connect (ui->SliderSound, SIGNAL(sliderMoved(int)),SLOT (ChangeSoundFrequency(int)));;  // Слайдер изменения частоты повторов
+    connect (ui->SliderSound, SIGNAL(valueChanged(int)),SLOT (ChangeSoundFrequency(int)));;  // Слайдер изменения частоты повторов
+
+    // Грузим установки формы из конфигурационного файла
+    qTC->formLoad(this, FormSetFile, false);
+
+    // зарисуем поля текущими значениями цветов
+    ui->label_5->setPalette(QPalette(getPohodColor()));
+    ui->label_7->setPalette(QPalette(getReadyColor()));
+    ui->label_8->setPalette(QPalette(getNotReadyColor()));
+    ui->label_9->setPalette(QPalette(getAvarColor()));
+    ui->label_13->setPalette(QPalette(getSelectColor()));
+
+     //Зададим начальное значение нового цвета равное сохраненному, чтобы отследить изменения,
+    // если юзер начнет тыкать кнопки и менять цвета
+    newPohodColor = getPohodColor();
+    newReadyColor = getReadyColor();
+    newNotReadyColor = getNotReadyColor();
+    newAvarColor = getAvarColor();
+    newSelectColor = getSelectColor();
+
+    // Теперь посмотрим: если стандартная цветовая схема, то ставим галку в чекбохе
+    if ((getPohodColor() == defaultPohodColor)&&(getReadyColor() == defaultReadyColor)&&(getNotReadyColor() == defaultNotReadyColor)&&(getAvarColor() == defaultAvarColor)&&(getSelectColor() == defaultSelectColor))
+    {
+        ui->chBoxStandartColors->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxStandartColors->setChecked(false);
+    }
+
+    // Зададим начальное значение звука "Аварийное состояние"
+    QSound avarSound(getAvarSoundPath());
+    // Если настройка "Звуки включены" - выставим ее
+    if (getSoundOn())
+    {
+        ui->chBoxSoundsOnOff->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxSoundsOnOff->setChecked(false);
+    }
+
+    // Выставим значение повторов звука
+    switch (getNumSoundRepeat())
+    {
+    case 1:
+        ui->SliderSound->setValue(1);
+        ui->slideLabel->setText("одноразовый сигнал");
+    break;
+    case 3:
+        ui->SliderSound->setValue(2);
+    break;
+    case 10:
+        ui->SliderSound->setValue(3);
+    break;
+    case 50:
+        ui->SliderSound->setValue(4);
+    break;
+    case -1:
+        ui->SliderSound->setValue(5);
+    break;
+    }
+    SetSoundsOnOff();
+}
+
+//-------------------------------------------------------------------------------------------------
+
+SetWindow::~SetWindow()
+{
+    // Сохраняем установки формы
+    qTC->formSave(this,FormSetFile,false);
+    delete ui;
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::changeEvent(QEvent *e)
+{
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
+
+//-------------------------------------------------------------------------------------------------
+void SetWindow::CloseWindow()
+{
+    this->close();
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::SaveSettings()
+{
+
+    setPohodColor(newPohodColor);
+    setReadyColor(newReadyColor);
+    setNotReadyColor(newNotReadyColor);
+    setAvarColor(newAvarColor);
+    setSelectColor(newSelectColor);
+
+    if (ui->chBoxSoundsOnOff->isChecked())
+     {
+         setSoundOn(true);
+     }
+     else
+     {
+         setSoundOn(false);
+     }
+
+    this->close();
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::SelectPohodColor()
+{    
+     // сохраним цвет на случай нажатия Cancel в диалоге цвета
+    // т.к. в этом случае выдается кривое значение цвета
+    QColor oldColor = newPohodColor;
+
+    newPohodColor = QColorDialog::getColor(newPohodColor, this, tr("Выбор цвета 'По-походному'"));
+    if (newPohodColor.isValid())
+    {
+        {ui->label_5->setPalette(QPalette(newPohodColor));}
+    }
+    else
+    {   // если нажат Cancel - возвращаем старый цвет
+        newPohodColor = oldColor;
+    }
+
+     // Проверим, стоит ли теперь стандартная цветовая схема
+    // Если да, то ставим галку в чекбохе, если нет - снимаем
+    if ((newPohodColor == defaultPohodColor)&&(newReadyColor == defaultReadyColor)&&(newNotReadyColor == defaultNotReadyColor)&&(newAvarColor == defaultAvarColor)&&(newSelectColor == defaultSelectColor))
+    {
+        ui->chBoxStandartColors->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxStandartColors->setChecked(false);
+    }
+
+}
+
+//-------------------------------------------------------------------------------------------------
+void SetWindow::SelectReadyColor()
+{
+     // сохраним цвет на случай нажатия Cancel в диалоге цвета
+    // т.к. в этом случае выдается кривое значение цвета
+    QColor oldColor = newReadyColor;
+
+    newReadyColor = QColorDialog::getColor(newReadyColor, this, tr("Выбор цвета 'Готов к работе'"));
+
+    if (newReadyColor.isValid())
+    {
+        ui->label_7->setPalette(QPalette(newReadyColor));
+    }
+    else
+    {   // если нажат Cancel - возвращаем старый цвет
+        newReadyColor = oldColor;
+    }
+
+     // Проверим, стоит ли теперь стандартная цветовая схема
+    // Если да, то ставим галку в чекбохе, если нет - снимаем
+    if ((newPohodColor == defaultPohodColor)&&(newReadyColor == defaultReadyColor)&&(newNotReadyColor == defaultNotReadyColor)&&(newAvarColor == defaultAvarColor)&&(newSelectColor == defaultSelectColor))
+    {
+        ui->chBoxStandartColors->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxStandartColors->setChecked(false);
+    }
+
+}
+
+//-------------------------------------------------------------------------------------------------
+void SetWindow::SelectNotReadyColor()
+{
+
+     // сохраним цвет на случай нажатия Cancel в диалоге цвета,
+    // т.к. в этом случае выдается кривое значение цвета
+    QColor oldColor = newNotReadyColor;
+
+    newNotReadyColor = QColorDialog::getColor(newNotReadyColor, this, tr("Выбор цвета 'Не готов к работе'"));
+    if (newNotReadyColor.isValid())
+    {
+        ui->label_8->setPalette(QPalette(newNotReadyColor));
+    }
+    else
+    {   // если нажат Cancel - возвращаем старый цвет
+        newNotReadyColor = oldColor;
+    }
+
+     // Проверим, стоит ли теперь стандартная цветовая схема
+    // Если да, то ставим галку в чекбохе, если нет - снимаем
+    if ((newPohodColor == defaultPohodColor)&&(newReadyColor == defaultReadyColor)&&(newNotReadyColor == defaultNotReadyColor)&&(newAvarColor == defaultAvarColor)&&(newSelectColor == defaultSelectColor))
+    {
+        ui->chBoxStandartColors->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxStandartColors->setChecked(false);
+    }
+
+}
+
+//-------------------------------------------------------------------------------------------------
+void SetWindow::SelectAvarColor()
+{
+     // сохраним цвет на случай нажатия Cancel в диалоге цвета,
+    // т.к. в этом случае выдается кривое значение цвета
+    QColor oldColor = newAvarColor;
+
+    newAvarColor = QColorDialog::getColor(newAvarColor, this, tr("Выбор цвета 'Аварийное состояние'"));
+    if (newAvarColor.isValid())
+    {
+        ui->label_9->setPalette(QPalette(newAvarColor));
+    }
+    else
+    {   // если нажат Cancel - возвращаем старый цвет
+        newAvarColor = oldColor;
+    }
+
+     // Проверим, стоит ли теперь стандартная цветовая схема
+    // Если да, то ставим галку в чекбохе, если нет - снимаем
+    if ((newPohodColor == defaultPohodColor)&&(newReadyColor == defaultReadyColor)&&(newNotReadyColor == defaultNotReadyColor)&&(newAvarColor == defaultAvarColor)&&(newSelectColor == defaultSelectColor))
+    {
+        ui->chBoxStandartColors->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxStandartColors->setChecked(false);
+    }
+
+
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::SelectSelectColor()
+{
+     // сохраним цвет на случай нажатия Cancel в диалоге цвета,
+    // т.к. в этом случае выдается кривое значение цвета
+    QColor oldColor = newSelectColor;
+
+    newSelectColor = QColorDialog::getColor(newSelectColor, this, tr("Выбор цвета 'Выделение неактивного компонента'"));
+    if (newSelectColor.isValid())
+    {
+        ui->label_13->setPalette(QPalette(newSelectColor));
+    }
+    else
+    {   // если нажат Cancel - возвращаем старый цвет
+        newSelectColor = oldColor;
+    }
+
+     // Проверим, стоит ли теперь стандартная цветовая схема
+    // Если да, то ставим галку в чекбохе, если нет - снимаем
+    if ((newPohodColor == defaultPohodColor)&&(newReadyColor == defaultReadyColor)&&(newNotReadyColor == defaultNotReadyColor)&&(newAvarColor == defaultAvarColor)&&(newSelectColor == defaultSelectColor))
+    {
+        ui->chBoxStandartColors->setChecked(true);
+    }
+    else
+    {
+        ui->chBoxStandartColors->setChecked(false);
+    }
+
+
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::SetStandardColors()
+{
+     // Если чекбох нажат, то рисуем стандартные цвета,
+    // ежели отжат, то те, которые были при открытии формы
+    if (ui->chBoxStandartColors->isChecked())
+    {
+        // присвоим цвета по умолчанию соответственно и лейблам и переменным новых цветов
+        ui->label_5->setPalette(QPalette(defaultPohodColor));
+        newPohodColor = defaultPohodColor;
+        ui->label_7->setPalette(QPalette(defaultReadyColor));
+        newReadyColor = defaultReadyColor;
+        ui->label_8->setPalette(QPalette(defaultNotReadyColor));
+        newNotReadyColor = defaultNotReadyColor;
+        ui->label_9->setPalette(QPalette(defaultAvarColor));
+        newAvarColor = defaultAvarColor;
+        ui->label_13->setPalette(QPalette(defaultSelectColor));
+        newSelectColor = defaultSelectColor;
+
+    }
+    else
+    {
+        // присвоим цвета загруженные из cfg соответственно и лейблам и переменным новых цветов
+        ui->label_5->setPalette(QPalette(getPohodColor()));
+        newPohodColor = getPohodColor();
+        ui->label_7->setPalette(QPalette(getReadyColor()));
+        newReadyColor = getReadyColor();
+        ui->label_8->setPalette(QPalette(getNotReadyColor()));
+        newNotReadyColor = getNotReadyColor();
+        ui->label_9->setPalette(QPalette(getAvarColor()));
+        newAvarColor = getAvarColor();
+        ui->label_13->setPalette(QPalette(getSelectColor()));
+        newSelectColor = getSelectColor();
+    }
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::SetSoundsOnOff()
+{
+
+   if (ui->chBoxSoundsOnOff->isChecked())
+    {
+        ui->toolBtnSound->setEnabled(true);
+        ui->toolBtnSoundDialog->setEnabled(true);
+        ui->label_11->setEnabled(true);
+        ui->slideLabel->setEnabled(true);
+        ui->SliderSound->setEnabled(true);
+        ui->label_14->setEnabled(true);
+    }
+    else
+    {
+        ui->toolBtnSound->setEnabled(false);
+        ui->toolBtnSoundDialog->setEnabled(false);
+        ui->label_11->setEnabled(false);
+        ui->toolBtnSound->setEnabled(false);
+        ui->toolBtnSoundDialog->setEnabled(false);
+        ui->label_11->setEnabled(false);
+        ui->slideLabel->setEnabled(false);
+        ui->SliderSound->setEnabled(false);
+        ui->label_14->setEnabled(false);
+    }
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::PlayAvarSound()
+{
+
+    QSound avarSound(getAvarSoundPath());
+
+    if (!avarSound.isAvailable())
+    {
+        QMessageBox::critical (0, QObject::tr("Ошибка воспроизведения"), msgErrorPlayingSound.toLatin1(),QMessageBox::Ok);
+        return;
+    }
+    avarSound.play();
+  }
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::SelectAvarSound()
+{
+    if (LastSoundPath == "")
+    {
+        LastSoundPath = qApp->applicationDirPath();
+    }
+    QString newAvarSoundFile = QFileDialog::getOpenFileName(this,tr("Выбрать звуковой файл"), LastSoundPath, tr("Звуковые файлы (*.wav)"));
+    LastSoundPath = newAvarSoundFile;
+
+    setAvarSoundPath(newAvarSoundFile);
+
+}
+
+//-------------------------------------------------------------------------------------------------
+
+void SetWindow::ChangeSoundFrequency(int slaiderposition)
+{
+
+    switch (slaiderposition)
+    {
+    case 1:
+        ui->slideLabel->setText("одноразовый сигнал");
+        setNumSoundRepeat(1);
+    break;
+    case 2:
+        ui->slideLabel->setText("повторить 3 раза");
+        setNumSoundRepeat(3);
+    break;
+    case 3:
+        ui->slideLabel->setText("повторить 10 раз");
+        setNumSoundRepeat(10);
+    break;
+    case 4:
+        ui->slideLabel->setText("повторить 50 раз");
+        setNumSoundRepeat(50);
+    break;
+    case 5:
+        ui->slideLabel->setText("повторять бесконечно");
+        setNumSoundRepeat(-1);
+    break;
+    }
+
+}
+
+//-------------------------------------------------------------------------------------------------

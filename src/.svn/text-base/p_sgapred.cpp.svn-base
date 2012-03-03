@@ -1,0 +1,165 @@
+#include "p_sgapred.h"
+#include "ui_p_sgapred.h"
+#include "taskconfig/taskconfig.h"
+#include "moduleconst.h"
+#include "modulevar.h"
+#include "moduleproc.h"
+#include <QSqlQueryModel>
+#include <QSqlQuery>
+#include <QMessageBox>
+#include <QVariant>
+#include <QString>
+
+//---------------------------------------------------------------------------------------------
+
+
+p_sgapredForm::p_sgapredForm(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::p_sgapredForm)
+{
+
+    ui->setupUi(this);
+
+    // Соединяем сигналы со слотами:
+    connect (ui->buttonBox, SIGNAL(accepted()), this, SLOT (SaveRecord()));    //кнопка "Ok"
+    connect (ui->buttonBox, SIGNAL(rejected()), this, SLOT (CloseWindow()));  // кнопка "Закрыть"
+
+    // Грузим установки формы из конфигурационного файла
+    qTC->formLoad(this, FormSetFile, false);
+
+    QString tmpString = tr("Новое погружение ");
+    setWindowTitle(tmpString.append(getCurrentTS().typeTS));
+
+     // Найдем макс № погружения и услужливо подставим его
+    // Если при вычислении max индекса возникла ошибка, ф-ция возвращает '-1'
+    int maxInt = MaxCode("z18_spts.p_sgapred","code");
+
+    // Если почему-то max № не выбрался - пишем в Edit '1'
+    if (maxInt == -1)
+    {
+        ui->lineEditNumber->setText("1");
+    }
+    else
+    {
+      maxInt++;
+      ui->lineEditNumber->setText(QString::number(maxInt));
+    }
+
+    // берем текущую дату
+    QDate curdate = QDate::currentDate();
+    ui->dateEditPogruzh->clear();
+    ui->dateEditPogruzh->setDate(curdate);
+    // берем текущее время
+    QTime curtime = QTime::currentTime();
+    ui->timeEditStartPogruzh->clear();
+    ui->timeEditStartPogruzh->setTime(curtime);
+
+    ui->timeEditEndPogruzh->clear();
+    ui->sostLabel->setText(tr("Не готов"));
+    ui->sostLabel->setPalette(QPalette(getNotReadyColor()));
+
+
+}
+
+//---------------------------------------------------------------------------------------------
+
+p_sgapredForm::~p_sgapredForm()
+{
+    // Сохраняем установки формы
+    qTC->formSave(this,FormSetFile,false);
+    delete ui;
+}
+
+//---------------------------------------------------------------------------------------------
+
+void p_sgapredForm::changeEvent(QEvent *e)
+{
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
+}
+
+//---------------------------------------------------------------------------------------------
+void p_sgapredForm::SaveRecord()
+{
+
+    if (ui->lineEditNumber->text().isEmpty())
+    {
+        QMessageBox::warning(0, tr("Добавление данных"), tr("Не заполнено поле 'Номер погружения'"), QMessageBox::Ok);
+        ui->lineEditNumber->setFocus(Qt::ActiveWindowFocusReason);
+        return;
+    }
+
+    if (ui->dateEditPogruzh->text().isEmpty())
+    {
+        QMessageBox::warning(0, tr("Добавление данных"), tr("Не заполнено поле 'Дата погружения'"), QMessageBox::Ok);
+        ui->dateEditPogruzh->setFocus(Qt::ActiveWindowFocusReason);
+        return;
+    }
+
+    if (ui->timeEditStartPogruzh->text().isEmpty())
+    {
+        QMessageBox::warning(0, tr("Добавление данных"), tr("Не заполнено поле 'Время начала работ'"), QMessageBox::Ok);
+        ui->timeEditStartPogruzh->setFocus(Qt::ActiveWindowFocusReason);
+        return;
+    }
+
+    // Проверим, имеется ли уже похожая запись
+    QSqlQuery queryInsert(getDbName());
+    queryInsert.clear();
+    queryInsert.prepare("SELECT COUNT(*) AS totalzap FROM z18_spts.p_sgapred WHERE name = :pname AND nomp = :pnomp AND datep = :pdatep AND begintime = :pbegintime");
+    queryInsert.bindValue(":pname", ui->labelTSName->text().trimmed());
+    queryInsert.bindValue(":pnomp", ui->lineEditNumber->text().trimmed());
+    queryInsert.bindValue(":pdatep", ui->dateEditPogruzh->text().trimmed());
+    queryInsert.bindValue(":pbegintime", ui->timeEditStartPogruzh->text().trimmed());
+    if (!queryInsert.exec())
+    {
+        QMessageBox::critical(0, tr("Добавление данных"), tr("Произошла ошибка при добавлении данных!"), QMessageBox::Ok);
+        return;
+    }
+    else // Если запрос сработал корректно
+    {
+        // если такая запись уже есть в таблице - ругаемся и выходим
+        queryInsert.first();
+        if (queryInsert.value(0).toInt() > 0)
+        {
+          QMessageBox::warning(0, tr("Добавление данных"), tr("Подобная запись уже имеется в таблице!"), QMessageBox::Ok);
+          return;
+        }
+    }
+
+    // Если все проверки пройдены успешно, вставляем запись
+    queryInsert.clear();
+    queryInsert.prepare("INSERT INTO z18_spts.p_sgapred WHERE name = :pname AND nomp = :pnomp AND datep = :pdatep AND begintime = :pbegintime");
+    queryInsert.bindValue(":pname", ui->labelTSName->text().trimmed());
+    queryInsert.bindValue(":pnomp", ui->lineEditNumber->text().trimmed());
+    queryInsert.bindValue(":pdatep", ui->dateEditPogruzh->text().trimmed());
+    queryInsert.bindValue(":pbegintime", ui->timeEditStartPogruzh->text().trimmed());
+
+    getDbName().transaction();
+
+    if (!queryInsert.exec())
+    {
+        QMessageBox::critical(0,tr("Добавление данных"),tr("Ошибка при добавлении данных"), QMessageBox::Ok);
+        getDbName().rollback();
+        return;
+    }
+    else  // если всё получилось
+    {
+        getDbName().commit();
+        this->close();
+    }
+}
+
+//---------------------------------------------------------------------------------------------
+
+void p_sgapredForm::CloseWindow()
+{
+    this->close();
+}
+//---------------------------------------------------------------------------------------------

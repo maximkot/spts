@@ -1,0 +1,84 @@
+/********************************************************************************
+** Form generated from reading UI file 'usrlist.ui'
+**
+** Created: Wed 15. Feb 16:23:20 2012
+**      by: Qt User Interface Compiler version 4.6.0
+**
+** WARNING! All changes made in this file will be lost when recompiling UI file!
+********************************************************************************/
+
+#ifndef UI_USRLIST_H
+#define UI_USRLIST_H
+
+#include <QtCore/QVariant>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QHeaderView>
+#include <QtGui/QRadioButton>
+#include <QtGui/QTableView>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QWidget>
+
+QT_BEGIN_NAMESPACE
+
+class Ui_UsrList
+{
+public:
+    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
+    QRadioButton *rbAll;
+    QRadioButton *rbSel;
+    QTableView *tvList;
+
+    void setupUi(QWidget *UsrList)
+    {
+        if (UsrList->objectName().isEmpty())
+            UsrList->setObjectName(QString::fromUtf8("UsrList"));
+        UsrList->resize(277, 328);
+        verticalLayout_2 = new QVBoxLayout(UsrList);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        rbAll = new QRadioButton(UsrList);
+        rbAll->setObjectName(QString::fromUtf8("rbAll"));
+        rbAll->setChecked(true);
+
+        verticalLayout->addWidget(rbAll);
+
+        rbSel = new QRadioButton(UsrList);
+        rbSel->setObjectName(QString::fromUtf8("rbSel"));
+
+        verticalLayout->addWidget(rbSel);
+
+
+        verticalLayout_2->addLayout(verticalLayout);
+
+        tvList = new QTableView(UsrList);
+        tvList->setObjectName(QString::fromUtf8("tvList"));
+        tvList->setEnabled(false);
+
+        verticalLayout_2->addWidget(tvList);
+
+
+        retranslateUi(UsrList);
+
+        QMetaObject::connectSlotsByName(UsrList);
+    } // setupUi
+
+    void retranslateUi(QWidget *UsrList)
+    {
+        UsrList->setWindowTitle(QApplication::translate("UsrList", "Dialog", 0, QApplication::UnicodeUTF8));
+        rbAll->setText(QApplication::translate("UsrList", "\320\222\321\201\320\265", 0, QApplication::UnicodeUTF8));
+        rbSel->setText(QApplication::translate("UsrList", "\320\222\321\213\320\261\320\276\321\200\320\276\321\207\320\275\320\276", 0, QApplication::UnicodeUTF8));
+    } // retranslateUi
+
+};
+
+namespace Ui {
+    class UsrList: public Ui_UsrList {};
+} // namespace Ui
+
+QT_END_NAMESPACE
+
+#endif // UI_USRLIST_H

@@ -1,0 +1,95 @@
+#ifndef MODULECONST_H
+#define MODULECONST_H
+#include <QColor>
+#include <QString>
+#include <QWidget>
+#include <QTextCodec>
+#include <QTranslator>
+#include "modulevar.h"
+
+
+// Наименование задачи-----------------------------------------------------------------------------
+const QString ZadName = "Ведение информации о состоянии технических средств, используемых при проведении спасательных работ";
+//-------
+
+// Имена файлов------------------------------------------------------------------------------------
+const QString ProgName = "r4102_spts";                // Обозначение программы
+const QString ProgSetFile = "r4102_spts.cfg";        // Файл настроек проекта и подключений
+const QString FormSetFile = "r4102_spts_frm.cfg";   // Файл настроек окон
+const QString TablSetFile = "r4102_spts_tbl.cfg";  // Файл настроек таблиц
+//-------
+
+// Цвета стандартной цветовой схемы----------------------------------------------------------------
+const QColor defaultPohodColor = Qt::lightGray;      // Цвет "по-походному" - светло-серый
+const QColor defaultReadyColor = Qt::green;         // Цвет 'Готов' - зеленый
+const QColor defaultNotReadyColor = Qt::yellow;    // Цвет 'Не Готов' - желтый
+const QColor defaultAvarColor = Qt::red;          // Цвет 'Аварийное состояние' - красный
+const QColor defaultSelectColor = Qt::lightGray; // Цвет 'Выделение неактивного компонента' - светло-серый
+//-------
+
+ // Наименование типов технических средств----------------------------------------------------------
+// аббревиатуры
+const QString tsBDD = "БДД";    // Блок двигателей-движителей
+const QString tsGVS = "ЖВС";    // Жесткий водолазный скафандр
+const QString tsNPA = "НПА";    // Необитаемый подводный аппарат
+const QString tsSGA = "СГА";    // Спасательный глубоководный аппарат
+const QString tsSJO = "СЖО";    // Система жизнеобеспечения
+
+// полностью
+const QString tsBDDfull = "Блок двигателей-движителей";
+const QString tsGVSfull = "Жесткий водолазный скафандр";
+const QString tsNPAfull = "Необитаемый подводный аппарат";
+const QString tsSGAfull = "Спасательный глубоководный аппарат";
+const QString tsSGOfull = "Система жизнеобеспечения";
+
+
+ // Наименование бланков проводимых работ----------------------------------------------------------
+// По учету состояния СГА:
+const QString blankPredSGA  = "Контрольно-проверочный лист предпогружной проверки СГА"; //к плаванию и выполнению подводных работ";
+const QString blankRabSGA   = "Лист учёта событий при работе СГА под водой"; // и нормативные требования к параметрам";
+const QString blankPosleSGA = "Контрольно-проверочный лист послепогружной проверки СГА";
+
+// По учету состояния ЖВС:
+const QString blankPredGVS  = "Лист предспусковой проверки ЖВС";
+const QString blankPredBDD  = "Лист предспусковой проверки БДД";
+const QString blankPosleGVS = "Лист послеспусковой проверки ЖВС";
+const QString blankPosleBDD = "Лист послеспусковой проверки БДД";
+const QString blankParamSGO = "Лист записи показаний СЖО";
+const QString blankSpuskGVS = "Лист проверки ЖВС при спуске (подъеме)";
+
+// По учету состояния ТНПА
+const QString blankPredNPA  = "Контрольно-проверочный лист предпогружных проверок НПА";
+const QString blankPosleNPA = "Контрольно-проверочный лист послепогружных проверок НПА";
+
+ // сокращенные наименования бланков, применяемые в комбобоксах (чтобы влезло)
+// для tsSGA
+const QString txtComboBoxSGAPred  = "Предпогружная проверка";
+const QString txtComboBoxSGARab   = "Работа под водой";
+const QString txtComboBoxSGAPosle = "Послепогружная проверка";
+
+// для tsGVS
+const QString txtComboBoxGVSPred  = "Предспусковая проверка ЖВС";
+const QString txtComboBoxBDDPred  = "Предспусковая проверка БДД";
+const QString txtComboBoxGVSPosle = "Послеспусковая проверка ЖВС";
+const QString txtComboBoxBDDPosle = "Послеспусковая проверка БДД";
+const QString txtComboBoxGVSSpusk = "Лист событий при спуске ЖВС";
+const QString txtComboBoxSGOParam = "Параметры показаний СЖО";
+const QString txtComboBoxGVSUpDwn = "Проверка ЖВС при спуске (подъеме)";
+
+// для tsNPA
+const QString txtComboBoxNPAPered = "Предпогружная проверка";
+const QString txtComboBoxNPAPosle = "Послепогружная проверка";
+//-------
+
+
+// Тексты сообщений оператору и пользователю-------------------------------------------------------
+const QString msgErrorCreateProgRabDir = "Ошибка при создании рабочего каталога программы";
+const QString msgErrorNoStaticDir      = "Отсутствует каталог со статической информацией программы";
+const QString msgErrorCreateOutDocDir  = "Ошибка при создании каталога для выходных документов";
+const QString msgErrorCreateOutXMLDir  = "Ошибка при создании каталога для выходных XML документов";
+const QString msgErrorReadSettings     = "Ошибка при считывании цветовых настроек параметров программы";
+const QString msgErrorPlayingSound     = "Аппаратные средства данного компьютера не позволяют воспроизводить звук";
+const QString msgErrorCantReadDBParam  = "Не удалось считать из БД параметры необходимые для работы программы";
+
+//---------------------------------------------------------------------------------------------------
+#endif // MODULECONST_H

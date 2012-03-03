@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/splash" >
+        <file>icons/flag.png</file>
+        <file>icons/cps.png</file>
+        <file>icons/tver.png</file>
+        <file>icons/flagofrescue.png</file>
+    </qresource>
+</RCC>

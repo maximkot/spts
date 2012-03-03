@@ -1,0 +1,211 @@
+/********************************************************************************
+** Form generated from reading UI file 'splashform.ui'
+**
+** Created: Wed 15. Feb 16:23:20 2012
+**      by: Qt User Interface Compiler version 4.6.0
+**
+** WARNING! All changes made in this file will be lost when recompiling UI file!
+********************************************************************************/
+
+#ifndef UI_SPLASHFORM_H
+#define UI_SPLASHFORM_H
+
+#include <QtCore/QVariant>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QDialog>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QFrame>
+#include <QtGui/QGridLayout>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QVBoxLayout>
+
+QT_BEGIN_NAMESPACE
+
+class Ui_SplashForm
+{
+public:
+    QVBoxLayout *verticalLayout_2;
+    QHBoxLayout *horizontalLayout_2;
+    QFrame *Frame_flag;
+    QHBoxLayout *horizontalLayout;
+    QLabel *Image_flag;
+    QFrame *Frame_top;
+    QGridLayout *gridLayout_2;
+    QLabel *Image_cps;
+    QLabel *L_title;
+    QLabel *Image_tver;
+    QLabel *L_name;
+    QFrame *Frame_middle;
+    QVBoxLayout *verticalLayout;
+    QGridLayout *gridLayout;
+    QLabel *L_user;
+    QLineEdit *E_user;
+    QLabel *L_pass;
+    QLineEdit *E_pass;
+    QDialogButtonBox *buttonBox;
+
+    void setupUi(QDialog *SplashForm)
+    {
+        if (SplashForm->objectName().isEmpty())
+            SplashForm->setObjectName(QString::fromUtf8("SplashForm"));
+        SplashForm->setWindowModality(Qt::ApplicationModal);
+        SplashForm->resize(462, 226);
+        SplashForm->setMinimumSize(QSize(431, 212));
+        SplashForm->setMaximumSize(QSize(16777215, 16777215));
+        SplashForm->setContextMenuPolicy(Qt::DefaultContextMenu);
+        SplashForm->setModal(true);
+        verticalLayout_2 = new QVBoxLayout(SplashForm);
+        verticalLayout_2->setSpacing(3);
+        verticalLayout_2->setContentsMargins(3, 3, 3, 3);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(0);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        Frame_flag = new QFrame(SplashForm);
+        Frame_flag->setObjectName(QString::fromUtf8("Frame_flag"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(Frame_flag->sizePolicy().hasHeightForWidth());
+        Frame_flag->setSizePolicy(sizePolicy);
+        Frame_flag->setFrameShape(QFrame::StyledPanel);
+        Frame_flag->setFrameShadow(QFrame::Plain);
+        horizontalLayout = new QHBoxLayout(Frame_flag);
+        horizontalLayout->setSpacing(0);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        Image_flag = new QLabel(Frame_flag);
+        Image_flag->setObjectName(QString::fromUtf8("Image_flag"));
+        Image_flag->setPixmap(QPixmap(QString::fromUtf8(":/splash/icons/flag.png")));
+        Image_flag->setAlignment(Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        horizontalLayout->addWidget(Image_flag);
+
+
+        horizontalLayout_2->addWidget(Frame_flag);
+
+        Frame_top = new QFrame(SplashForm);
+        Frame_top->setObjectName(QString::fromUtf8("Frame_top"));
+        Frame_top->setFrameShape(QFrame::StyledPanel);
+        Frame_top->setFrameShadow(QFrame::Plain);
+        gridLayout_2 = new QGridLayout(Frame_top);
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        Image_cps = new QLabel(Frame_top);
+        Image_cps->setObjectName(QString::fromUtf8("Image_cps"));
+        sizePolicy.setHeightForWidth(Image_cps->sizePolicy().hasHeightForWidth());
+        Image_cps->setSizePolicy(sizePolicy);
+        Image_cps->setPixmap(QPixmap(QString::fromUtf8(":/splash/icons/cps.png")));
+        Image_cps->setAlignment(Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        gridLayout_2->addWidget(Image_cps, 0, 0, 1, 1);
+
+        L_title = new QLabel(Frame_top);
+        L_title->setObjectName(QString::fromUtf8("L_title"));
+        L_title->setAlignment(Qt::AlignCenter);
+        L_title->setWordWrap(true);
+
+        gridLayout_2->addWidget(L_title, 0, 1, 1, 1);
+
+        Image_tver = new QLabel(Frame_top);
+        Image_tver->setObjectName(QString::fromUtf8("Image_tver"));
+        sizePolicy.setHeightForWidth(Image_tver->sizePolicy().hasHeightForWidth());
+        Image_tver->setSizePolicy(sizePolicy);
+        Image_tver->setPixmap(QPixmap(QString::fromUtf8(":/splash/icons/tver.png")));
+        Image_tver->setAlignment(Qt::AlignCenter|Qt::AlignHCenter|Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+
+        gridLayout_2->addWidget(Image_tver, 0, 2, 1, 1);
+
+        L_name = new QLabel(Frame_top);
+        L_name->setObjectName(QString::fromUtf8("L_name"));
+        L_name->setAlignment(Qt::AlignCenter);
+        L_name->setWordWrap(true);
+
+        gridLayout_2->addWidget(L_name, 1, 0, 1, 3);
+
+
+        horizontalLayout_2->addWidget(Frame_top);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_2);
+
+        Frame_middle = new QFrame(SplashForm);
+        Frame_middle->setObjectName(QString::fromUtf8("Frame_middle"));
+        Frame_middle->setFrameShape(QFrame::StyledPanel);
+        Frame_middle->setFrameShadow(QFrame::Plain);
+        verticalLayout = new QVBoxLayout(Frame_middle);
+        verticalLayout->setSpacing(3);
+        verticalLayout->setContentsMargins(3, 3, 3, 3);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        gridLayout = new QGridLayout();
+        gridLayout->setSpacing(3);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        L_user = new QLabel(Frame_middle);
+        L_user->setObjectName(QString::fromUtf8("L_user"));
+
+        gridLayout->addWidget(L_user, 0, 0, 1, 1);
+
+        E_user = new QLineEdit(Frame_middle);
+        E_user->setObjectName(QString::fromUtf8("E_user"));
+
+        gridLayout->addWidget(E_user, 0, 1, 1, 1);
+
+        L_pass = new QLabel(Frame_middle);
+        L_pass->setObjectName(QString::fromUtf8("L_pass"));
+
+        gridLayout->addWidget(L_pass, 1, 0, 1, 1);
+
+        E_pass = new QLineEdit(Frame_middle);
+        E_pass->setObjectName(QString::fromUtf8("E_pass"));
+        E_pass->setEchoMode(QLineEdit::Password);
+
+        gridLayout->addWidget(E_pass, 1, 1, 1, 1);
+
+
+        verticalLayout->addLayout(gridLayout);
+
+
+        verticalLayout_2->addWidget(Frame_middle);
+
+        buttonBox = new QDialogButtonBox(SplashForm);
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+
+        verticalLayout_2->addWidget(buttonBox);
+
+        QWidget::setTabOrder(E_user, E_pass);
+
+        retranslateUi(SplashForm);
+        QObject::connect(buttonBox, SIGNAL(accepted()), SplashForm, SLOT(accept()));
+        QObject::connect(buttonBox, SIGNAL(rejected()), SplashForm, SLOT(reject()));
+
+        QMetaObject::connectSlotsByName(SplashForm);
+    } // setupUi
+
+    void retranslateUi(QDialog *SplashForm)
+    {
+        SplashForm->setWindowTitle(QApplication::translate("SplashForm", "\320\227\320\260\320\277\321\203\321\201\320\272 \320\277\321\200\320\276\320\263\321\200\320\260\320\274\320\274\321\213", 0, QApplication::UnicodeUTF8));
+        Image_flag->setText(QString());
+        Image_cps->setText(QString());
+        L_title->setText(QApplication::translate("SplashForm", "\320\220\320\241\320\243 \320\242\320\265\321\205\320\236 \320\222\320\234\320\244\n"
+"\"\320\256\320\277\320\270\321\202\320\265\321\200-\320\241\320\242\320\236\"", 0, QApplication::UnicodeUTF8));
+        Image_tver->setText(QString());
+        L_name->setText(QApplication::translate("SplashForm", "\320\232\320\237 \"\320\244\320\276\321\200\320\274\320\270\321\200\320\276\320\262\320\260\320\275\320\270\320\265 \320\264\320\276\320\275\320\265\321\201\320\265\320\275\320\270\320\271 \320\276 \320\277\320\276\321\202\321\200\320\265\320\261\320\275\320\276\321\201\321\202\320\270, \320\275\320\260\320\273\320\270\321\207\320\270\320\270 \320\270 \320\264\320\262\320\270\320\266\320\265\320\275\320\270\320\270 \320\270\320\274\321\203\321\211\320\265\321\201\321\202\320\262\320\260\"", 0, QApplication::UnicodeUTF8));
+        L_user->setText(QApplication::translate("SplashForm", "\320\237\320\276\320\273\321\214\320\267\320\276\320\262\320\260\321\202\320\265\320\273\321\214:", 0, QApplication::UnicodeUTF8));
+        L_pass->setText(QApplication::translate("SplashForm", "\320\237\320\260\321\200\320\276\320\273\321\214:", 0, QApplication::UnicodeUTF8));
+        E_pass->setText(QString());
+    } // retranslateUi
+
+};
+
+namespace Ui {
+    class SplashForm: public Ui_SplashForm {};
+} // namespace Ui
+
+QT_END_NAMESPACE
+
+#endif // UI_SPLASHFORM_H

@@ -1,0 +1,133 @@
+/********************************************************************************
+** Form generated from reading UI file 'newdive.ui'
+**
+** Created: Wed 15. Feb 16:23:20 2012
+**      by: Qt User Interface Compiler version 4.6.0
+**
+** WARNING! All changes made in this file will be lost when recompiling UI file!
+********************************************************************************/
+
+#ifndef UI_NEWDIVE_H
+#define UI_NEWDIVE_H
+
+#include <QtCore/QDate>
+#include <QtCore/QVariant>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QDateEdit>
+#include <QtGui/QDialog>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QFrame>
+#include <QtGui/QGridLayout>
+#include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QSpacerItem>
+
+QT_BEGIN_NAMESPACE
+
+class Ui_NewDiveWindow
+{
+public:
+    QGridLayout *gridLayout;
+    QFrame *frame;
+    QGridLayout *gridLayout_2;
+    QLabel *label;
+    QLineEdit *lineEditNumber;
+    QLabel *label_2;
+    QDateEdit *dateEditPogruzh;
+    QFrame *frame_2;
+    QGridLayout *gridLayout_3;
+    QSpacerItem *horizontalSpacer;
+    QDialogButtonBox *buttonBox;
+
+    void setupUi(QDialog *NewDiveWindow)
+    {
+        if (NewDiveWindow->objectName().isEmpty())
+            NewDiveWindow->setObjectName(QString::fromUtf8("NewDiveWindow"));
+        NewDiveWindow->resize(250, 120);
+        NewDiveWindow->setMinimumSize(QSize(250, 120));
+        NewDiveWindow->setMaximumSize(QSize(350, 200));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/new/windowheader/src/icons/myicons/spts.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        NewDiveWindow->setWindowIcon(icon);
+        gridLayout = new QGridLayout(NewDiveWindow);
+        gridLayout->setSpacing(3);
+        gridLayout->setContentsMargins(3, 3, 3, 3);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        frame = new QFrame(NewDiveWindow);
+        frame->setObjectName(QString::fromUtf8("frame"));
+        frame->setFrameShape(QFrame::Box);
+        frame->setFrameShadow(QFrame::Sunken);
+        gridLayout_2 = new QGridLayout(frame);
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        label = new QLabel(frame);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        gridLayout_2->addWidget(label, 0, 0, 1, 1);
+
+        lineEditNumber = new QLineEdit(frame);
+        lineEditNumber->setObjectName(QString::fromUtf8("lineEditNumber"));
+
+        gridLayout_2->addWidget(lineEditNumber, 0, 1, 1, 1);
+
+        label_2 = new QLabel(frame);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        gridLayout_2->addWidget(label_2, 1, 0, 1, 1);
+
+        dateEditPogruzh = new QDateEdit(frame);
+        dateEditPogruzh->setObjectName(QString::fromUtf8("dateEditPogruzh"));
+        dateEditPogruzh->setMaximumDate(QDate(2099, 12, 31));
+        dateEditPogruzh->setMinimumDate(QDate(1999, 9, 14));
+        dateEditPogruzh->setCalendarPopup(true);
+
+        gridLayout_2->addWidget(dateEditPogruzh, 1, 1, 1, 1);
+
+
+        gridLayout->addWidget(frame, 0, 0, 1, 1);
+
+        frame_2 = new QFrame(NewDiveWindow);
+        frame_2->setObjectName(QString::fromUtf8("frame_2"));
+        frame_2->setMaximumSize(QSize(16777215, 40));
+        frame_2->setFrameShape(QFrame::Box);
+        frame_2->setFrameShadow(QFrame::Sunken);
+        gridLayout_3 = new QGridLayout(frame_2);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        horizontalSpacer = new QSpacerItem(55, 17, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer, 0, 0, 1, 1);
+
+        buttonBox = new QDialogButtonBox(frame_2);
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setMinimumSize(QSize(0, 25));
+        buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+
+        gridLayout_3->addWidget(buttonBox, 0, 1, 1, 1);
+
+
+        gridLayout->addWidget(frame_2, 1, 0, 1, 1);
+
+
+        retranslateUi(NewDiveWindow);
+
+        QMetaObject::connectSlotsByName(NewDiveWindow);
+    } // setupUi
+
+    void retranslateUi(QDialog *NewDiveWindow)
+    {
+        NewDiveWindow->setWindowTitle(QApplication::translate("NewDiveWindow", "\320\235\320\276\320\262\320\276\320\265 \320\277\320\276\320\263\321\200\321\203\320\266\320\265\320\275\320\270\320\265 \320\241\320\223\320\220", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("NewDiveWindow", "\320\235\320\276\320\274\320\265\321\200 \320\277\320\276\320\263\321\200\321\203\320\266\320\265\320\275\320\270\321\217:", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("NewDiveWindow", "\320\224\320\260\321\202\320\260 \320\277\320\276\320\263\321\200\321\203\320\266\320\265\320\275\320\270\321\217:", 0, QApplication::UnicodeUTF8));
+    } // retranslateUi
+
+};
+
+namespace Ui {
+    class NewDiveWindow: public Ui_NewDiveWindow {};
+} // namespace Ui
+
+QT_END_NAMESPACE
+
+#endif // UI_NEWDIVE_H
