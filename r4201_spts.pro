@@ -1,4 +1,5 @@
 #spts main project file
+#any change in project
 include (../taskconfig/taskconfig.pri)
 include (./src/sziinifile/sziinifile.pri)
 include (./setdirs.pri)
