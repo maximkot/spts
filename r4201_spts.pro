@@ -3,7 +3,6 @@ include (../taskconfig/taskconfig.pri)
 include (./src/sziinifile/sziinifile.pri)
 include (./setdirs.pri)
 
-# INCLUDEPATH += ../taskconfig/include/
 QT += sql
 TARGET = r4201_spts
 TEMPLATE = app
