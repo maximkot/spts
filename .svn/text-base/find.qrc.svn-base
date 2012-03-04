@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/find">
-        <file alias="proper">icon/proper.png</file>
-        <file alias="next">icon/next.png</file>
-        <file alias="prev">icon/prev.png</file>
-    </qresource>
-</RCC>
