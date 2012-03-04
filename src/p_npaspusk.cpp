@@ -1,6 +1,6 @@
 #include "p_npaspusk.h"
 #include "ui_p_npaspusk.h"
-#include "taskconfig/taskconfig.h"
+#include "taskconfig.h"
 #include "moduleconst.h"
 #include "modulevar.h"
 #include "moduleproc.h"

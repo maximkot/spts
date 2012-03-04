@@ -2,7 +2,7 @@
 #include "ui_newts.h"
 #include <QSqlQueryModel>
 #include <QColor>
-#include "taskconfig/taskconfig.h"
+#include "taskconfig.h"
 #include <QMessageBox>
 #include "moduleconst.h"
 #include "modulevar.h"

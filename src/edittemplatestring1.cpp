@@ -1,6 +1,6 @@
 #include "edittemplatestring1.h"
 #include "ui_edittemplatestring1.h"
-#include "taskconfig/taskconfig.h"
+#include "taskconfig.h"
 #include "moduleconst.h"
 
 //---------------------------------------------------------------------------------------------

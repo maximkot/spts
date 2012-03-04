@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QSound>
 
-#include "taskconfig\taskconfig.h"
+#include "taskconfig.h"
 #include "modulevar.h"
 #include "moduleconst.h"
 

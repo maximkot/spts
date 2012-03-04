@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "./taskconfig/taskconfig.h"
+#include "taskconfig.h"
 #include <QKeyEvent>
 #include <QShowEvent>
 #include <QToolBar>

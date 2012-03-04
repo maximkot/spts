@@ -3,7 +3,7 @@
 #include "edittemplatestring1.h"
 #include "edittemplatestring2.h"
 #include "edittemplatestring3.h"
-#include "taskconfig/taskconfig.h"
+#include "taskconfig.h"
 #include "moduleconst.h"
 
 

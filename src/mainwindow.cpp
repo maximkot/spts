@@ -559,24 +559,32 @@ void MainWindow::FormChoiceAdd()
     switch (getRabModeCurrentTS())
     {
         case 0:
+    {
             NewTS ts;
             ts.exec();
+    }
         break;
         case 1: // Открыта вкладка предспусковых работ
             // Вызываем формы добавления в зависимости от режима работы (СГА, ЖВC, НПА)
             switch (getRabMode())
             {
                 case 1: // Режим СГА-----------------
+            {
                   p_sgapredForm psgap(true,true,-1,this);
                   psgap.exec();
+            }
                 break;
                 case 2: // Режим ЖВС-----------------
+            {
                   p_gvspredForm pgvsp(true,true,-1,this);
                   pgvsp.exec();
+            }
                 break;
                 case 3: // Режим НПА-----------------
+            {
                   p_npapredForm pnpap(true,true,-1,this);
                   pnpap.exec();
+            }
                 break;
                 default:  // Если никуда не попали, то это сбой
                   QMessageBox::critical (0, QObject::tr("Ошибка добавления данных"), msqErrorAddRecord.toLatin1());
@@ -588,16 +596,22 @@ void MainWindow::FormChoiceAdd()
             switch (getRabMode())
             {
                 case 1: // Режим СГА-----------------
+            {
                   p_sgaspuskForm psgas(true,-1,this);
                   psgas.exec();
+            }
                 break;
                 case 2: // Режим ЖВС-----------------
+            {
                   p_gvsspuskForm pgvss(true,-1,this);
                   pgvss.exec();
+            }
                 break;
                 case 3: // Режим НПА-----------------
+            {
                   p_npaspuskForm pnpas(true,-1,this);
                   pnpas.exec();
+            }
                 break;
                 default:  // Если никуда не попали, то это сбой
                   QMessageBox::critical (0, QObject::tr("Ошибка добавления данных"), msqErrorAddRecord.toLatin1());
@@ -609,16 +623,22 @@ void MainWindow::FormChoiceAdd()
             switch (getRabMode())
             {
                 case 1: // Режим СГА-----------------
+            {
                   p_sgapredForm psgap(true,false,-1,this);
                   psgap.exec();
+            }
                 break;
                 case 2: // Режим ЖВС-----------------
+            {
                   p_gvspredForm pgvsp(true,false,-1,this);
                   pgvsp.exec();
+            }
                 break;
                 case 3: // Режим НПА-----------------
+            {
                   p_npapredForm pnpap(true,false,-1,this);
                   pnpap.exec();
+            }
                 break;
                 default:  // Если никуда не попали, то это сбой
                   QMessageBox::critical (0, QObject::tr("Ошибка добавления данных"), msqErrorAddRecord.toLatin1());

@@ -23,9 +23,9 @@
 #include <QPaintDevice>
 
 
-#include "taskconfig\taskconfig.h"
-#include "taskconfig\splashform.h"
-#include "sziinifile\tsziinifile.h"
+#include "taskconfig.h"
+#include "splashform.h"
+#include "tsziinifile.h"
 #include "mainwindow.h"
 #include "modulevar.h"
 #include "moduleconst.h"

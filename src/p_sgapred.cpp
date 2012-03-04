@@ -1,6 +1,6 @@
 #include "p_sgapred.h"
 #include "ui_p_sgapred.h"
-#include "taskconfig/taskconfig.h"
+#include "taskconfig.h"
 #include "moduleconst.h"
 #include "modulevar.h"
 #include "moduleproc.h"

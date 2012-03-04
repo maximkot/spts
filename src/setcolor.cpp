@@ -10,7 +10,7 @@
 #include "modulevar.h"
 #include "moduleconst.h"
 #include "ui_setcolor.h"
-#include "taskconfig/taskconfig.h"
+#include "taskconfig.h"
 
 
 //-------------------------------------------------------------------------------------------------

@@ -315,34 +315,59 @@ void FindPrivate::find(QModelIndex currentIndex, Find::FindCourse findCourse)
     if (currentIndex == QModelIndex()) {
         QString msgTitle = tr("Найти");
         if (findCourse == Find::FindFirst || findCourse == Find::FindLast)
+        {
             if   (sourceView->objectName()=="treeView")
-                 QMessageBox::information(sourceView, msgTitle, tr("Закончен просмотр дерева. Искомый элемент не найден."));
-            else QMessageBox::information(sourceView, msgTitle, tr("Закончен просмотр таблицы. Искомый элемент не найден."));
-        if (findCourse == Find::FindForward) {
+            {
+                 QMessageBox::information(sourceView, msgTitle,
+                                          tr("Закончен просмотр дерева. Искомый элемент не найден."));
+            }
+            else
+            {
+                QMessageBox::information(sourceView, msgTitle,
+                                         tr("Закончен просмотр таблицы. Искомый элемент не найден."));
+            }
+        }
+        if (findCourse == Find::FindForward)
+        {
             QString msgText;
             if  (sourceView->objectName()=="treeView")
+            {
                  msgText = tr("Достигнут конец дерева. Продолжить поиск с начала?");
-            else msgText = tr("Достигнут конец таблицы. Продолжить поиск с начала?");
+            }
+            else
+            {
+                msgText = tr("Достигнут конец таблицы. Продолжить поиск с начала?");
+            }
             QMessageBox msg(QMessageBox::Question, msgTitle, msgText,
                             QMessageBox::NoButton, sourceView);
             msg.addButton(tr("Да"), QMessageBox::YesRole);
             msg.addButton(tr("Нет"), QMessageBox::NoRole);
             if (msg.exec() == QMessageBox::AcceptRole)
+            {
                 find(sourceView->currentIndex(), Find::FindFirst);
-        };
+            }
+        }
 
-        if (findCourse == Find::FindBachward) {
+        if (findCourse == Find::FindBachward)
+        {
             QString msgText;
             if  (sourceView->objectName()=="treeView")
+            {
                  msgText = tr("Достигнуто начало дерева. Продолжить поиск с конца?");
-            else msgText = tr("Достигнуто начало таблицы. Продолжить поиск с конца?");
+            }
+            else
+            {
+                msgText = tr("Достигнуто начало таблицы. Продолжить поиск с конца?");
+            }
 
             QMessageBox msg(QMessageBox::Question, msgTitle, msgText,
                             QMessageBox::NoButton, sourceView);
             msg.addButton(tr("Да"), QMessageBox::YesRole);
             msg.addButton(tr("Нет"), QMessageBox::NoRole);
             if (msg.exec() == QMessageBox::AcceptRole)
+            {
                 find(sourceView->currentIndex(), Find::FindLast);
+            }
         }
 
         parentWgt->activateWindow();
@@ -350,6 +375,7 @@ void FindPrivate::find(QModelIndex currentIndex, Find::FindCourse findCourse)
     }
 
     if (currentIndex.isValid())
+    {
         if (sourceView->objectName()=="treeView")
         {   QTreeView *source_ = dynamic_cast<QTreeView*>(sourceView);
             QModelIndex index=sourceView->currentIndex();
@@ -360,7 +386,11 @@ void FindPrivate::find(QModelIndex currentIndex, Find::FindCourse findCourse)
             sourceView->setCurrentIndex(currentIndex);
             source_->setCurrentIndex(currentIndex);
         }
-        else sourceView->setCurrentIndex(currentIndex);
+        else
+        {
+            sourceView->setCurrentIndex(currentIndex);
+        }
+    }
 }
 
 QModelIndex FindPrivate::parentNext(const QModelIndex &currentIndex)
