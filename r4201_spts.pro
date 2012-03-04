@@ -5,6 +5,7 @@ include (./setdirs.pri)
 
 QT += sql
 TARGET = r4201_spts
+DESTDIR = bin
 TEMPLATE = app
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
