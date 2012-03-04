@@ -1,2 +1,12 @@
 
 *.user
+/.moc
+/.objects
+/.rc
+/.ui
+/bin
+/Makefile
+/Makefile.Debug
+/Makefile.Release
+/object_script.r4201_spts.Debug
+/object_script.r4201_spts.Release
