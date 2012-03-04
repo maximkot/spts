@@ -4,7 +4,6 @@
 /.objects
 /.rc
 /.ui
-/bin
 /Makefile
 /Makefile.Debug
 /Makefile.Release
